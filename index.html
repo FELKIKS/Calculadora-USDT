@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora USDT</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z94VXPK0LE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-Z94VXPK0LE');
+    </script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <div class="calculator-container">
+        <h1>Calculadora USDT</h1>
+        <p>USD Spot (Investing): 4.9314</p>
+        <hr>
+        <h4>USDT Preço: $<span id="calculationResult">4.9284</span> (<span id="calculationFormula">usdSpot * multiplier</span>)</h4>
+
+        <label for="multiplierInput">Digite o valor do multiplier:</label>
+        <input type="text" id="multiplierInput" class="multiplier-input" oninput="updateValues()" onclick="this.focus()">
+    </div>
+    <!-- Adicione qualquer outro conteúdo ou script necessário aqui -->
+</body>
+</html>
