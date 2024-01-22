@@ -13,20 +13,24 @@
         gtag('js', new Date());
         gtag('config', 'G-Z94VXPK0LE');
     </script>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        .background-pattern {
+            /* Adicione o estilo de fundo desejado aqui */
+        }
+        .calculator-container {
+            /* Adicione estilos para o contêiner da calculadora */
+        }
+    </style>
     <script src="script.js"></script>
 </head>
 <body>
     <div class="background-pattern"></div>
     <div class="calculator-container">
         <h1>Calculadora USDT</h1>
-        <p>USD Spot (Investing): 4.9314</p>
+        <p>USD Spot (Investing): <span id="usdSpotValue">Carregando...</span></p>
+        <p>Taxa: $<span id="taxaValue">Carregando...</span></p>
         <hr>
-        <h4>USDT Preço: $<span id="calculationResult">4.9284</span> (<span id="calculationFormula">usdSpot * multiplier</span>)</h4>
-
-        <label for="multiplierInput">Digite o valor do multiplier:</label>
-        <input type="text" id="multiplierInput" class="multiplier-input" oninput="updateValues()" onclick="this.focus()">
+        <h4>USDT Preço: $<span id="calculationResult">Carregando...</span></h4>
     </div>
-    <!-- Adicione qualquer outro conteúdo ou script necessário aqui -->
 </body>
 </html>
