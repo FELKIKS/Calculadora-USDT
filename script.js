@@ -1,13 +1,42 @@
+document.addEventListener('DOMContentLoaded', function () {
+    // Chama a função updateValues após a carga do documento
+    updateValues();
+});
+
 function updateValues() {
-    var usdSpot = 4.9314;
+    // Substitua isso pela lógica real para obter os valores do gtag.js
+    var usdSpot = obterValorDoGtag(); 
+    var taxa = obterTaxaDaURL();
+    
+    // Atualiza os valores na página
+    document.getElementById('usdSpotValue').textContent = usdSpot.toFixed(4);
+    document.getElementById('taxaValue').textContent = taxa.toFixed(2);
+    
+    var resultado = calculateResult(usdSpot, taxa).toFixed(4);
+    document.getElementById('calculationResult').textContent = resultado;
 
-    var multiplierInput = document.getElementById('multiplierInput').value;
-    var multiplier = multiplierInput ? parseFloat(multiplierInput) : 1;
+    // Atualiza o título da página com o resultado
+    document.title = `USDT Preço: $${resultado}`;
 
-    var usdtPrice = usdSpot * multiplier;
-
-    document.getElementById('calculationResult').textContent = usdtPrice.toFixed(4);
+    // Atualizar a cada 3 segundos
+    setTimeout(updateValues, 3000);
 }
 
-// Atualizar a cada 3 segundos
-setInterval(updateValues, 3000);
+function calculateResult(usdSpot, taxa) {
+    return usdSpot * taxa;
+}
+
+function obterValorDoGtag() {
+    // Lógica para obter o valor do gtag.js
+    // Substitua por sua lógica real
+    return 4.9687; // Exemplo, substitua pelo valor real
+}
+
+function obterTaxaDaURL() {
+    // Extrai o parâmetro 'taxa' da URL
+    var urlParams = new URLSearchParams(window.location.search);
+    var taxa = urlParams.get('taxa');
+    
+    // Se 'taxa' não estiver presente na URL, use um valor padrão
+    return taxa ? parseFloat(taxa.replace(",", ".")) : 1.0; // Valor padrão é 1.0
+}
