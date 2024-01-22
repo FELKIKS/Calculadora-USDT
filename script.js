@@ -10,8 +10,7 @@ function updateValues() {
     
     // Atualiza os valores na página
     document.getElementById('usdSpotValue').textContent = usdSpot.toFixed(4);
-    document.getElementById('taxaValue').textContent = taxa.toFixed(2);
-    
+    document.getElementById('taxaValue').textContent = taxa.toString(); // Exibir o valor completo
     var resultado = calculateResult(usdSpot, taxa).toFixed(4);
     document.getElementById('calculationResult').textContent = resultado;
 
