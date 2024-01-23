@@ -28,7 +28,7 @@ function calculateResult(usdSpot, taxa) {
 function obterValorDoGtag() {
     // Lógica para obter o valor do gtag.js
     // Substitua por sua lógica real
-    return 4.9630; // Exemplo, substitua pelo valor real
+    return 4.9645; // Exemplo, substitua pelo valor real
 }
 
 function obterTaxaDaURL() {
