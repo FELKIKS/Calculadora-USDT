@@ -1,41 +1,70 @@
+var cache = {
+    data: null,
+    hash: null,
+    taxaOriginal: null
+};
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Chama a função updateValues após a carga do documento
-    updateValues();
-});
-
-function updateValues() {
-    // Substitua isso pela lógica real para obter os valores do gtag.js
-    var usdSpot = obterValorDoGtag(); 
-    var taxa = obterTaxaDaURL();
-    
-    // Atualiza os valores na página
-    document.getElementById('usdSpotValue').textContent = usdSpot.toFixed(4);
-    document.getElementById('taxaValue').textContent = taxa.toString(); // Exibir o valor completo
-    var resultado = calculateResult(usdSpot, taxa).toFixed(4);
-    document.getElementById('calculationResult').textContent = resultado;
-
-    // Atualiza o título da página com o resultado
-    document.title = `USDT Preço: $${resultado}`;
+    fetchAPI();
 
     // Atualizar a cada 3 segundos
-    setTimeout(updateValues, 3000);
+    setInterval(fetchAPI, 3000);
+});
+
+function fetchAPI() {
+    obterTaxaDaURL()
+        .then(function (taxa) {
+            // Armazenar a taxa original na primeira chamada
+            if (cache.taxaOriginal === null) {
+                cache.taxaOriginal = taxa;
+            }
+
+            return fetch("https://cors-everywhere.onrender.com/https://api.hgbrasil.com/finance?key=c60e30cf");
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            var dataHash = JSON.stringify(data.results.currencies.USD.sell);
+
+            // Se os valores da API mudaram, atualize a página
+            if (dataHash !== cache.hash) {
+                cache.data = data;
+                cache.hash = dataHash;
+                atualizarValores();
+            }
+        })
+        .catch((error) => {
+            console.error("Erro ao obter dados da API:", error);
+        });
 }
 
-function calculateResult(usdSpot, taxa) {
-    return usdSpot * taxa;
+async function obterTaxaDaURL() {
+    try {
+        var urlParams = new URLSearchParams(window.location.search);
+        var taxa = urlParams.get('taxa');
+
+        return taxa ? parseFloat(taxa.replace(",", ".")) : 1.0;
+    } catch (error) {
+        console.error("Erro ao obter taxa da URL:", error);
+        return 1.0; // Valor padrão
+    }
 }
 
-function obterValorDoGtag() {
-    // Lógica para obter o valor do gtag.js
-    // Substitua por sua lógica real
-    return 4.9122; // Exemplo, substitua pelo valor real
-}
+async function atualizarValores() {
+    try {
+        var taxa = await obterTaxaDaURL(); // Aguarda a resolução da promessa da taxa
 
-function obterTaxaDaURL() {
-    // Extrai o parâmetro 'taxa' da URL
-    var urlParams = new URLSearchParams(window.location.search);
-    var taxa = urlParams.get('taxa');
-    
-    // Se 'taxa' não estiver presente na URL, use um valor padrão
-    return taxa ? parseFloat(taxa.replace(",", ".")) : 1.0; // Valor padrão é 1.0
+        // Calcular os valores multiplicando pela taxa original
+        var usdSpotValue = cache.data.results.currencies.USD.sell.toFixed(4);
+        var usdtPrice = (cache.data.results.currencies.USD.sell * taxa).toFixed(4);
+
+        // Atualizar os elementos na página
+        document.getElementById('usdSpotValue').textContent = usdSpotValue;
+        document.getElementById('usdtPrice').textContent = usdtPrice;
+        document.getElementById('taxaValue').textContent = taxa.toFixed(2);
+
+        // Atualiza o título da página com o resultado
+        document.title = `USDT Preço: $${usdtPrice} | USD Spot: $${usdSpotValue}`;
+    } catch (error) {
+        console.error("Erro ao atualizar valores:", error);
+    }
 }
