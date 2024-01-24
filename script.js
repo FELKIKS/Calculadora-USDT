@@ -19,7 +19,7 @@ function fetchAPI() {
                 cache.taxaOriginal = taxa;
             }
 
-            return fetch("https://cors-everywhere.onrender.com/https://api.hgbrasil.com/finance?key=c60e30cf");
+            return fetch("https://cors-everywhere.onrender.com/https://api.hgbrasil.com/finance?key=04fbbd74");
         })
         .then((response) => response.json())
         .then((data) => {
